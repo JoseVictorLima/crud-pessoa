@@ -1,8 +1,10 @@
 export default {
     methods:{
         redirect(path){
+            //'' to refresh page
+            if(path=='') this.$router.go()
             if(path=='back') this.$router.back()
-            // if(path=='home') this.$router.push('/').catch(err => {})
+            if(path=='home') this.$router.push('/').catch(err => {err})
             else this.$router.push(`/${path}`).catch(err => { err})
         },
         makeToast(message,type,config=undefined){

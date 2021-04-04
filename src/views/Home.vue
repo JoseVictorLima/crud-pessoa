@@ -5,7 +5,9 @@
         <button class="col-2 btn btn-primary" type="button" @click="redirect('pessoa/new')">Adicionar</button>
       </div>
       <br>
-      <cp-table class="col-12" :table="table" @edit="edit"></cp-table>
+      <pre>{{id}}</pre>
+      <cp-table class="col-12" :table="table" @edit="edit" @delete="confirmDelete"></cp-table>
+      <cp-modal :modal="modal" @sim="deletar()" @nao="modal.show=false; id=undefined"></cp-modal>
   </div>
 </template>
 
@@ -14,12 +16,22 @@
 export default {
   data(){
     return{
+      id:undefined,
+      modal:{
+        show:false,
+        text:'Deseja deletar esse cadastro?',
+        actions:[
+          {name:'Sim',color:'btn-success',action:'sim'},
+          {name:'Não',color:'btn-danger',action:'nao'},
+        ]
+      },
       table:{
         headers:[
           {name:'nome',label:'Nome',align:'center'},
           {name:'cpf',label:'CPF',align:'center'},
           {name:'dataNascimento',label:'Data de Nascimento',align:'center'},
           {name:'sexo',label:'Sexo',align:'center'},
+          {name:'modificacao',label:'Alterações',align:'center'},
         ],
         rows:[
           // {nome:'José',sexo:'Masculino', cpf:"250-250",dataNascimento:'10/11/2015'}
@@ -50,7 +62,24 @@ export default {
 
     edit(row){
       this.redirect(`pessoa/${row.id}/edit`)
-    }
+    },
+
+    confirmDelete(row){
+      this.id =row.id
+      this.modal.show =true
+    },
+
+    async deletar(){
+      if(this.id!=undefined){
+        try{
+          const resp = await this.$services.pessoas.delete(this.id)
+          if(resp.status==200){
+            this.modal.show=false
+            this.redirect('')
+          }
+        }catch(error){error}
+      }
+    },
   },
 }
 </script>

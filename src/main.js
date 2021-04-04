@@ -15,6 +15,10 @@ Vue.prototype.$services = services;
 
 Vue.use(GlobalComponents)
 
+Vue.component("modal", {
+  template: "#modal-template"
+});
+
 new Vue({
   router,
   style,

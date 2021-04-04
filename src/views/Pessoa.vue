@@ -72,10 +72,18 @@ export default {
 
     async salvar(){
         try{
+            let resp
             this.pessoa.sexo = this.sexo
-            this.pessoa.modificacao = this.pessoa.modificacao++
-            const resp = await this.$services.pessoas.post(this.pessoa)
-            if(resp.status==201){
+            if(this.$route.params.id!=undefined) {
+              this.pessoa.modificacao = this.pessoa.modificacao + 1
+              resp = await this.$services.pessoas.put(this.pessoa.id,this.pessoa)
+            }
+            else {
+              this.pessoa.modificacao = 0
+              resp = await this.$services.pessoas.post(this.pessoa)
+            }
+            console.log(resp)
+            if(resp.status==201||resp.status==200){
                 this.redirect('back')
             }
         }catch(error){error}
@@ -84,8 +92,8 @@ export default {
     async findOne(id){
         const resp = await this.$services.pessoas.getById(id)
         if(resp.status==200){
-            console.log(resp)
             this.pessoa = resp.data
+            this.sexo = this.pessoa.sexo
         }
     }
 
