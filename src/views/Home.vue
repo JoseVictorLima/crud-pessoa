@@ -73,11 +73,9 @@ export default {
           const resp = await this.$services.pessoas.delete(this.id)
           if(resp.status==200){
             this.modal.show=false
-            this.makeToast('Cadastro deletado com sucesso','success',{timeout: 2000})
-            var that = this;
-            setTimeout(function(){ that.redirect('') }, 2500)
+            this.redirect('')
           }
-        }catch(error){console.log(error)}
+        }catch(error){error}
       }
     },
   },
