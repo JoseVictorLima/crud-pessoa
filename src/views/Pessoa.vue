@@ -5,14 +5,14 @@
         <div class="col-6">
           <validation-provider rules="required" v-slot="{ errors }">
             <label for="nome" class="label">Nome*</label>
-            <input type="text" class="form-control" id="nome" placeholder="Nome" v-model="pessoa.nome">
+            <input type="text" class="form-control" id="nome" placeholder="Exemplo: José Antonio da Silva" v-model="pessoa.nome" maxlength="100">
             <span class="error">{{ errors[0] }}</span>
           </validation-provider>
         </div>
         <div class="form-group col-6">
-          <validation-provider  rules="required" v-slot="{ errors }">
+          <validation-provider  rules="cpf" v-slot="{ errors }">
             <label for="cpf" class="label">CPF*</label>
-            <input type="text" class="form-control" id="cpf" placeholder="Nome da receita" v-model="pessoa.cpf">
+            <input type="text" class="form-control" id="cpf" placeholder="Exemplo: 000.000.000-00" v-model="pessoa.cpf" maxlength="14">
             <span class="error">{{ errors[0] }}</span>
           </validation-provider>
         </div>
@@ -82,9 +82,9 @@ export default {
               this.pessoa.modificacao = 0
               resp = await this.$services.pessoas.post(this.pessoa)
             }
-            console.log(resp)
             if(resp.status==201||resp.status==200){
-                this.redirect('back')
+              this.makeToast('Cadastro salvo com sucesso','success')
+              this.redirect('back')
             }
         }catch(error){error}
     },

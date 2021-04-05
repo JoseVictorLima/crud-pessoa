@@ -11,7 +11,10 @@
           <tbody>
             <slot name="body">
             <tr v-for="(row,i) in table.rows" :key="i">
-              <td v-for="(col,i) in table.headers" :key="i" :class="`text-${col.align}`" >{{row[col.name]}}</td>
+              <td v-for="(col,i) in table.headers" :key="i" :class="`text-${col.align}`" >
+                <span v-if="col.type==undefined">{{row[col.name]}}</span>
+                <span v-if="col.type=='data'">{{fomatarData(row[col.name],'ddmmyyyy','/')}}</span>
+              </td>
               <td class="text-center">
                 <div class="btn-group" role="group">
                   <button v-for="(action,i) in table.actions" :key="i" type="button" :class="`btn ${action.color}`" @click="$emit(action.action,row)">

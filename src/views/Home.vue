@@ -29,13 +29,11 @@ export default {
         headers:[
           {name:'nome',label:'Nome',align:'center'},
           {name:'cpf',label:'CPF',align:'center'},
-          {name:'dataNascimento',label:'Data de Nascimento',align:'center'},
+          {name:'dataNascimento',label:'Data de Nascimento',align:'center',type:'data'},
           {name:'sexo',label:'Sexo',align:'center'},
           {name:'modificacao',label:'Alterações',align:'center'},
         ],
-        rows:[
-          // {nome:'José',sexo:'Masculino', cpf:"250-250",dataNascimento:'10/11/2015'}
-        ],
+        rows:[],
         actions:[
           {label:'Editar',color:'btn-success',action:'edit'},
           {label:'Deletar',color:'btn-danger',action:'delete'},
@@ -75,9 +73,11 @@ export default {
           const resp = await this.$services.pessoas.delete(this.id)
           if(resp.status==200){
             this.modal.show=false
-            this.redirect('')
+            this.makeToast('Cadastro deletado com sucesso','success',{timeout: 2000})
+            var that = this;
+            setTimeout(function(){ that.redirect('') }, 2500)
           }
-        }catch(error){error}
+        }catch(error){console.log(error)}
       }
     },
   },

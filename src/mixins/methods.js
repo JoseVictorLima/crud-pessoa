@@ -19,5 +19,21 @@ export default {
                 else this.$toast(`${message}`,config)
             }
         },
+        fomatarData(data,formato,divisor){
+            //Formats: "ddmmyyyy" , "mmddyyyy" , "yyyymmdd" 
+            //Dividers: "/" , "-" , " "
+            try{
+              if(data!=undefined){
+                  let novaData = new Date(data)
+                  var dd = String(novaData.getDate()).padStart(2, '0');
+                  var mm = String(novaData.getMonth() + 1).padStart(2, '0');
+                  var yyyy = novaData.getFullYear();
+                  if(formato=="ddmmyyyy") data = dd + `${divisor}` + mm + `${divisor}` + yyyy;
+                  else if(formato=="mmddyyyy") data = mm + `${divisor}` + dd + `${divisor}` + yyyy;
+                  else if(formato=="yyyymmdd") data = yyyy + `${divisor}` + mm + `${divisor}` + dd;
+              }
+            }catch(error){error}
+            return data
+          },
     }
 }

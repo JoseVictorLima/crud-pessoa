@@ -14,8 +14,23 @@ extend('required', {
       };
     },
     computesRequired: true,
-    message: 'Este campo é obrigatorio.'
+    message: 'Este campo é obrigatório.'
   });
+
+extend('cpf',{
+  validate (value) {
+    let valido = true
+    var cpfValido = /^(([0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}))$/;
+    if(cpfValido.test(value) == false) valido = false
+    return{
+      required: true,
+      valid: valido
+    };
+    
+  },
+  computesRequired: true,
+  message: 'CPF com formato inválido.'
+});
 
 export default {
     components:{
